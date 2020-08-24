@@ -23,21 +23,25 @@ jobs:
           name: Tests
           command: npm run test
   build-dev:
-    - run:
-        name: Build
-        command: npm run build
+    steps:
+      - run:
+          name: Build
+          command: npm run build
   build-prod:
-    - run:
-        name: Build Prod
-        command: npm run build:prod
+    steps:
+      - run:
+          name: Build Prod
+          command: npm run build:prod
   deploy-dev:
-    - run:
-        name: Firebase Deploy
-        command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P default
+    steps:
+      - run:
+          name: Firebase Deploy
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P default
   deploy-prod:
-    - run:
-        name: Firebase Deploy Prod
-        command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P prod
+    steps:
+      - run:
+          name: Firebase Deploy Prod
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P prod
 workflows:
   version: 2.1
   build-deploy:
@@ -52,7 +56,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - develop
       - build-prod:
           filters:
             branches:
