@@ -23,7 +23,7 @@ jobs:
             - ./node_modules
       - run:
           name: Tests
-          command: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+          command: npm run test -- --no-watch --browsers=ChromeHeadlessCI
   build-dev:
     docker:
       - image: circleci/node:10.16.0
