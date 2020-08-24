@@ -31,24 +31,32 @@ jobs:
   build-dev:
     executor: action-executor
     steps:
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Build
           command: npm run build
   build-prod:
     executor: action-executor
     steps:
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Build Prod
           command: npm run build:prod
   deploy-dev:
     executor: action-executor
     steps:
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Firebase Deploy
           command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P default
   deploy-prod:
     executor: action-executor
     steps:
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Firebase Deploy Prod
           command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P prod
