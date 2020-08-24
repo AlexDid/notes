@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "notes-7f3c8",
+    "prod": "notes-prod-6f010"
+  }
+}
