@@ -31,6 +31,7 @@ jobs:
   build-dev:
     executor: action-executor
     steps:
+      - checkout
       - restore_cache:
           key: v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
@@ -39,6 +40,7 @@ jobs:
   build-prod:
     executor: action-executor
     steps:
+      - checkout
       - restore_cache:
           key: v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
@@ -47,6 +49,7 @@ jobs:
   deploy-dev:
     executor: action-executor
     steps:
+      - checkout
       - restore_cache:
           key: v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
@@ -55,6 +58,7 @@ jobs:
   deploy-prod:
     executor: action-executor
     steps:
+      - checkout
       - restore_cache:
           key: v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
