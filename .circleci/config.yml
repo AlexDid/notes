@@ -6,7 +6,7 @@ jobs:
       - image: circleci/node:10.16.0-browsers
         environment:
           CHROME_BIN: "/usr/bin/google-chrome"
-    working_directory: ~/repo
+    working_directory: ~/notes
     steps:
       - checkout
       # Download and cache dependencies
