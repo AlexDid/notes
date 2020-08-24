@@ -1,11 +1,16 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-jobs:
-  pre-build:
+executors:
+  action-executor:
     docker:
       - image: circleci/node:10.16.0-browsers
-        environment:
-          CHROME_BIN: "/usr/bin/google-chrome"
+      environment:
+        CHROME_BIN: "/usr/bin/google-chrome"
+    working_directory: ~/notes
+    resource_class: small
+jobs:
+  pre-build:
+    executor: action-executor
     steps:
       - checkout
       # Download and cache dependencies
@@ -24,29 +29,25 @@ jobs:
           name: Tests
           command: npm run test -- --no-watch --browsers=FirefoxHeadless --source-map=false
   build-dev:
-    docker:
-      - image: circleci/node:10.16.0
+    executor: action-executor
     steps:
       - run:
           name: Build
           command: npm run build
   build-prod:
-    docker:
-      - image: circleci/node:10.16.0
+    executor: action-executor
     steps:
       - run:
           name: Build Prod
           command: npm run build:prod
   deploy-dev:
-    docker:
-      - image: circleci/node:10.16.0
+    executor: action-executor
     steps:
       - run:
           name: Firebase Deploy
           command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P default
   deploy-prod:
-    docker:
-      - image: circleci/node:10.16.0
+    executor: action-executor
     steps:
       - run:
           name: Firebase Deploy Prod
