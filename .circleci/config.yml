@@ -65,11 +65,15 @@ workflows:
                 - develop
                 - master
       - build-dev:
+          requires:
+            - pre-build
           filters:
             branches:
               only:
                 - develop
       - build-prod:
+          requires:
+            - pre-build
           filters:
             branches:
               only:
