@@ -23,6 +23,7 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     captureTimeout: 600000,
+    browserNoActivityTimeout: 60000,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
@@ -30,7 +31,10 @@ module.exports = function (config) {
     customLaunchers: {
       ChromeHeadlessCI: {
         base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
+        flags: [
+          '--no-sandbox',
+          '--disable-web-security'
+        ]
       }
     },
     singleRun: false,
