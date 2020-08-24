@@ -27,7 +27,7 @@ jobs:
   build-dev:
     docker:
       - image: circleci/node:10.16.0
-    working_directory: ~/repo
+    working_directory: ~/notes
     steps:
       - run:
           name: Build
@@ -35,7 +35,7 @@ jobs:
   build-prod:
     docker:
       - image: circleci/node:10.16.0
-    working_directory: ~/repo
+    working_directory: ~/notes
     steps:
       - run:
           name: Build Prod
@@ -43,7 +43,7 @@ jobs:
   deploy-dev:
     docker:
       - image: circleci/node:10.16.0
-    working_directory: ~/repo
+    working_directory: ~/notes
     steps:
       - run:
           name: Firebase Deploy
@@ -51,7 +51,7 @@ jobs:
   deploy-prod:
     docker:
       - image: circleci/node:10.16.0
-    working_directory: ~/repo
+    working_directory: ~/notes
     steps:
       - run:
           name: Firebase Deploy Prod
