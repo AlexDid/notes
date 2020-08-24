@@ -4,8 +4,8 @@ executors:
   action-executor:
     docker:
       - image: circleci/node:10.16.0-browsers
-      environment:
-        CHROME_BIN: "/usr/bin/google-chrome"
+        environment:
+          CHROME_BIN: "/usr/bin/google-chrome"
     working_directory: ~/notes
     resource_class: small
 jobs:
