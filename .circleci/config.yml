@@ -23,21 +23,33 @@ jobs:
           name: Tests
           command: npm run test
   build-dev:
+    docker:
+      - image: circleci/node:10.16.0
+    working_directory: ~/repo
     steps:
       - run:
           name: Build
           command: npm run build
   build-prod:
+    docker:
+      - image: circleci/node:10.16.0
+    working_directory: ~/repo
     steps:
       - run:
           name: Build Prod
           command: npm run build:prod
   deploy-dev:
+    docker:
+      - image: circleci/node:10.16.0
+    working_directory: ~/repo
     steps:
       - run:
           name: Firebase Deploy
           command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P default
   deploy-prod:
+    docker:
+      - image: circleci/node:10.16.0
+    working_directory: ~/repo
     steps:
       - run:
           name: Firebase Deploy Prod
