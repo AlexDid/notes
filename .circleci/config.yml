@@ -27,8 +27,18 @@ jobs:
             - ./node_modules
       - run:
           name: Tests
-          command: npm run test -- --no-watch --browsers=FirefoxHeadless --source-map=false
-  build-dev:
+          command: npm run test:ci
+          environment:
+            JUNIT_REPORT_PATH: ./junit/
+            JUNIT_REPORT_NAME: test-results.xml
+      - run:
+          name: Test coverage
+          command: ./node_modules/.bin/codecov
+      - store_test_results:
+          path: ./junit
+      - store_artifacts:
+          path: ./junit
+  build-deploy-dev:
     executor: action-executor
     steps:
       - checkout
@@ -40,7 +50,10 @@ jobs:
       - run:
           name: Build
           command: npm run build
-  build-prod:
+      - run:
+          name: Firebase Deploy
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P default
+  build-deploy-prod:
     executor: action-executor
     steps:
       - checkout
@@ -52,27 +65,6 @@ jobs:
       - run:
           name: Build Prod
           command: npm run build:prod
-  deploy-dev:
-    executor: action-executor
-    steps:
-      - checkout
-      - restore_cache:
-          key: v1-npm-deps-{{ checksum "package-lock.json" }}
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Firebase Deploy
-          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P default
-  deploy-prod:
-    executor: action-executor
-    steps:
-      - checkout
-      - restore_cache:
-          key: v1-npm-deps-{{ checksum "package-lock.json" }}
-      - run:
-          name: Install Dependencies
-          command: npm install
       - run:
           name: Firebase Deploy Prod
           command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P prod
@@ -86,29 +78,17 @@ workflows:
               only:
                 - develop
                 - master
-      - build-dev:
+      - build-deploy-dev:
           requires:
             - pre-build
           filters:
             branches:
               only:
                 - develop
-      - build-prod:
+      - build-deploy-prod:
           requires:
             - pre-build
           filters:
             branches:
               only:
                 - master
-      - deploy-dev:
-          requires:
-            - build-dev
-          filters:
-            branches:
-              only: develop
-      - deploy-prod:
-          requires:
-            - build-prod
-          filters:
-            branches:
-              only: master
