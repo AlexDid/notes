@@ -35,6 +35,8 @@ speed-measure-plugin*.json
 /.sass-cache
 /connect.lock
 /coverage
+/test-results
+/junit
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
@@ -44,3 +46,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Firebase
+.firebase
+firebase-debug.log

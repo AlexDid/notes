@@ -1,0 +1,94 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+executors:
+  action-executor:
+    docker:
+      - image: circleci/node:10.16.0-browsers
+        environment:
+          CHROME_BIN: "/usr/bin/google-chrome"
+    working_directory: ~/notes
+    resource_class: small
+jobs:
+  pre-build:
+    executor: action-executor
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-npm-deps-{{ checksum "package-lock.json" }}
+            - v1-npm-deps-
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - save_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Tests
+          command: npm run test:ci
+          environment:
+            JUNIT_REPORT_PATH: ./junit/
+            JUNIT_REPORT_NAME: test-results.xml
+      - run:
+          name: Test coverage
+          command: ./node_modules/.bin/codecov
+      - store_test_results:
+          path: ./junit
+      - store_artifacts:
+          path: ./junit
+  build-deploy-dev:
+    executor: action-executor
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Build
+          command: npm run build
+      - run:
+          name: Firebase Deploy
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P default
+  build-deploy-prod:
+    executor: action-executor
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Build Prod
+          command: npm run build:prod
+      - run:
+          name: Firebase Deploy Prod
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting -P prod
+workflows:
+  version: 2.1
+  build-deploy:
+    jobs:
+      - pre-build:
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+      - build-deploy-dev:
+          requires:
+            - pre-build
+          filters:
+            branches:
+              only:
+                - develop
+      - build-deploy-prod:
+          requires:
+            - pre-build
+          filters:
+            branches:
+              only:
+                - master
