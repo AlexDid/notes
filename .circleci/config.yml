@@ -79,15 +79,11 @@ workflows:
                 - develop
                 - master
       - build-deploy-dev:
-          requires:
-            - pre-build
           filters:
             branches:
               only:
                 - develop
       - build-deploy-prod:
-          requires:
-            - pre-build
           filters:
             branches:
               only:
