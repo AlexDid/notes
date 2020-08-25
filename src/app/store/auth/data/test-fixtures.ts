@@ -6,10 +6,9 @@ export const credentials: EmailLogin = {
   password: 'qwe12345'
 };
 export const user: User = {
-  displayName: 'test',
-  email: credentials.email,
-  photoURL: 'https://google.com',
-  uid: 'f3ubf3f93nf0'
+  name: 'test',
+  picture: 'https://google.com',
+  id: 'f3ubf3f93nf0'
 };
 export const error: ErrorDto = {
   message: 'Error'
