@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<testsuite name="Firefox 79.0 (Mac OS 10.15)" package="" timestamp="2020-08-25T10:13:34" id="0" hostname="Oleksiis-MBP.lan" tests="0" errors="0" failures="0" time="0">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:79.0) Gecko/20100101 Firefox/79.0"/>
+  </properties>
+  <system-out>
+    <![CDATA[
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
