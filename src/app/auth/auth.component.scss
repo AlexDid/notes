@@ -1,0 +1,54 @@
+@import "~src/styles/theme";
+
+:host {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: mat-color($primary, default);
+
+  mat-card {
+    width: 500px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 400;
+      margin-bottom: 40px;
+    }
+
+    .spinner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .submit, .google-button {
+        color: white;
+        width: 260px;
+      }
+
+      .google-button {
+        background-color: royalblue;
+      }
+
+      * + * {
+        margin-top: 15px;
+      }
+    }
+  }
+}

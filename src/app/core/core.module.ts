@@ -5,11 +5,15 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../../environments/environment';
 import { RouterStoreModule } from './modules/router';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 
 const MODULES = [
   AngularFireAuthModule,
   AngularFirestoreModule,
-  RouterStoreModule
+  RouterModule,
+  RouterStoreModule,
+  MatSnackBarModule
 ];
 
 @NgModule({

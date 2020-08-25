@@ -10,6 +10,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
 import { reducers, appEffects } from './store';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -20,9 +21,10 @@ import { reducers, appEffects } from './store';
     CoreModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot(appEffects)
+    EffectsModule.forRoot(appEffects),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
