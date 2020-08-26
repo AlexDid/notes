@@ -3,6 +3,17 @@ import { EmailLogin } from './models/email-login';
 import { ErrorDto } from '../../core/models';
 import { UserDto } from './models/user.dto';
 
+export const checkLoginStatus = createAction(
+  '[Auth] Check Login Status'
+);
+export const checkLoginStatusSuccess = createAction(
+  '[Auth] Check Login Status Success',
+  props<UserDto>()
+);
+export const checkLoginStatusError = createAction(
+  '[Auth] Check Login Status Error'
+);
+
 export const loginEmail = createAction(
   '[Auth] Login Email',
   props<EmailLogin>()

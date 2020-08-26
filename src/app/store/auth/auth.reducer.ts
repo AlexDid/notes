@@ -34,6 +34,11 @@ export const reducer = createReducer(
     isLoading: true
   })),
 
+  on(AuthActions.checkLoginStatusSuccess, (state, {user}) => ({
+    ...state,
+    user,
+  })),
+
   on(AuthActions.authSuccess, (state, {user}) => ({
     ...state,
     user,

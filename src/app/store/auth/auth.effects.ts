@@ -22,6 +22,14 @@ export class AuthEffects {
   ) {}
 
 
+  @Effect()
+  checkLoginStatus$ = this.actions$.pipe(
+    ofType(AuthActions.checkLoginStatus),
+    mergeMap(() => fromPromise(this.authService.getSerializedUser()).pipe(
+      map(user => AuthActions.checkLoginStatusSuccess({user})),
+      catchError(() => of(AuthActions.checkLoginStatusError()))
+    ))
+  );
 
   @Effect()
   loginEmail$ = this.actions$.pipe(

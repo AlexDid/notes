@@ -7,15 +7,14 @@ const redirectUnauthorizedToLogin = redirectUnauthorizedTo(['auth']);
 
 const routes: Routes = [
   {
+    path: 'auth',
+    component: AuthComponent
+  },
+  {
     path: '',
-    pathMatch: 'full',
     loadChildren: () => import('./notes/notes.module').then(m => m.NotesModule),
     ...canActivate(() => redirectUnauthorizedToLogin)
   },
-  {
-    path: 'auth',
-    component: AuthComponent
-  }
 ];
 
 @NgModule({

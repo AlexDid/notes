@@ -1,0 +1,16 @@
+<input type="file" (change)="fileChangeEvent($event)" />
+
+<image-cropper
+  [imageChangedEvent]="imageChangedEvent"
+  [imageURL]="imageURL"
+  [maintainAspectRatio]="true"
+  [aspectRatio]="4 / 3"
+  [canvasRotation]="canvasRotation"
+  format="png"
+  (imageCropped)="imageCropped($event)"
+></image-cropper>
+
+<img [src]="image" alt="preview" />
+
+<button (click)="rotateLeft()">left</button>
+<button (click)="rotateRight()">right</button>

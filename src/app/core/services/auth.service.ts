@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import { User } from '../models';
+import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
+import { USERS_COLLECTION } from '../data';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,8 @@ import { User } from '../models';
 export class AuthService {
 
   constructor(
-    private fireAuth: AngularFireAuth
+    private fireAuth: AngularFireAuth,
+    private firestore: AngularFirestore
   ) { }
 
   async login(email: string, password: string): Promise<User> {
@@ -19,20 +22,23 @@ export class AuthService {
 
   async signUp(email: string, password: string): Promise<User> {
     await this.fireAuth.createUserWithEmailAndPassword(email, password);
-    return this.getSerializedUser();
+    const user = await this.getSerializedUser();
+    await this.addUserToDb(user);
+    return user;
   }
 
   async loginGoogle(): Promise<User> {
     await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-    return this.getSerializedUser();
+    const user = await this.getSerializedUser();
+    await this.addUserToDb(user);
+    return user;
   }
 
   async logout(): Promise<void> {
     return this.fireAuth.signOut();
   }
 
-
-  private async getSerializedUser(): Promise<User> {
+  async getSerializedUser(): Promise<User> {
     const user = await this.fireAuth.currentUser;
 
     return {
@@ -42,5 +48,12 @@ export class AuthService {
     };
   }
 
+  private async addUserToDb(user: User): Promise<DocumentReference | void> {
+    const userRef = this.firestore.collection(USERS_COLLECTION).doc(user.id);
+    const snapshot = await userRef.get().toPromise();
+    if (!snapshot.exists) {
+      return userRef.set(user);
+    }
+  }
 
 }

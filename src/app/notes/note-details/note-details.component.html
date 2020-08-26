@@ -1,1 +1,27 @@
-<p>note-details works!</p>
+<div
+  *ngIf="showSpinner; else formBlock"
+  class="spinner-container"
+>
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-template #formBlock>
+  <app-image-cropper
+    [imageURL]="note?.imageURL"
+    (base64)="updateImage($event)"
+  ></app-image-cropper>
+
+  <app-markdown-editor
+    [content]="noteForm.content"
+    (contentChange)="updateContent($event)"
+  ></app-markdown-editor>
+
+  <div class="buttons">
+    <button
+      mat-button
+      (click)="save()"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>

@@ -7,13 +7,15 @@ import { environment } from '../../environments/environment';
 import { RouterStoreModule } from './modules/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
+import { DialogModule } from './modules/dialog/dialog.module';
 
 const MODULES = [
   AngularFireAuthModule,
   AngularFirestoreModule,
   RouterModule,
   RouterStoreModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  DialogModule
 ];
 
 @NgModule({
